@@ -550,7 +550,12 @@ let copy = document.getElementById("copy");
 copy.innerHTML = `&copy; ${date}`;
 
 //wait for server scale up
-fetch("https://moonlight-znjk.onrender.com/data")
+fetch(`https://moonlight-znjk.onrender.com/data`, {
+  method: "GET",
+  headers: {
+    Authorization: "Bearer " + accessToken,
+  },
+})
   .then((response) => response.json())
   .then(() => {
     changeDisplay(loginContainer);
