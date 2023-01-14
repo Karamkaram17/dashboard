@@ -37,7 +37,10 @@
   </div>
 
   <div class="form-container" id="add-item-container">
-    <button onclick="logOut()" class="logout">Log Out</button>
+    <div>
+      <button class="goToDashBtn" onclick="changeDisplay(dashboard)">Return To Dashboard</button>
+      <button onclick="logOut()" class="logout">Log Out</button>
+    </div>
     <form method="post" id="add-item-form" autocomplete="off">
       <h1>Add Item</h1>
       <div class="input-div">
@@ -49,11 +52,13 @@
       </div>
       <div class="alert" id="add-item-alert"></div>
     </form>
-    <button class="goToDashBtn" onclick="changeDisplay(dashboard)">Return To Dashboard</button>
   </div>
 
   <div class="form-container" id="edit-item-container">
-    <button onclick="logOut()" class="logout">Log Out</button>
+    <div>
+      <button class="goToDashBtn" onclick="changeDisplay(dashboard)">Return To Dashboard</button>
+      <button onclick="logOut()" class="logout">Log Out</button>
+    </div>
     <form id="edit-item-form" autocomplete="off">
       <h1>Edit Item</h1>
       <div class="input-div">
@@ -65,11 +70,13 @@
       </div>
       <div class="alert" id="edit-item-alert"></div>
     </form>
-    <button class="goToDashBtn" onclick="changeDisplay(dashboard)">Return To Dashboard</button>
   </div>
 
   <div class="form-container" id="add-user-container">
-    <button onclick="logOut()" class="logout">Log Out</button>
+    <div>
+      <button class="goToDashBtn" onclick="changeDisplay(dashboard)">Return To Dashboard</button>
+      <button onclick="logOut()" class="logout">Log Out</button>
+    </div>
     <form id="add-user-form" autocomplete="off" spellcheck="false">
       <h1>Add User</h1>
       <div class="input-div">
@@ -89,11 +96,13 @@
       </div>
       <div class="alert" id="add-user-alert"></div>
     </form>
-    <button class="goToDashBtn" onclick="changeDisplay(dashboard)">Return To Dashboard</button>
   </div>
 
   <div class="form-container" id="edit-user-container">
-    <button onclick="logOut()" class="logout">Log Out</button>
+    <div>
+      <button class="goToDashBtn" onclick="changeDisplay(dashboard)">Return To Dashboard</button>
+      <button onclick="logOut()" class="logout">Log Out</button>
+    </div>
     <form id="edit-user-form" autocomplete="off" spellcheck="false">
       <h1>edit User</h1>
       <div class="input-div">
@@ -114,7 +123,6 @@
       </div>
       <div class="alert" id="edit-user-alert"></div>
     </form>
-    <button class="goToDashBtn" onclick="changeDisplay(dashboard)">Return To Dashboard</button>
   </div>
 
   <section id="all-items-section" class="sections">
