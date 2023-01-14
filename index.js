@@ -571,6 +571,10 @@ function ScaleUp() {
     .then((response) => response.json())
     .then(() => {
       changeDisplay(loginContainer);
+    })
+    .catch((error) => {
+      ServerResponse.innerHTML = `<h1 style="color:red">An unexpected error occurred</h1><h2 style="color:red">try again later</h2>`;
+      console.error(error);
     });
 }
 ScaleUp();
