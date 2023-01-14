@@ -1,0 +1,213 @@
+body {
+  margin: 0;
+  background-color: rgb(44, 42, 42);
+  color: rgb(103, 187, 214);
+}
+#server-up {
+  display: block;
+  height: calc(100vh - 30px);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+/* ============ Dashboard =========== */
+#dashboard {
+  height: calc(100vh - 17px);
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#welcome-span {
+  font-weight: bold;
+}
+#data-button,
+#users-button {
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(103, 187, 214);
+  color: white;
+  padding: 5px 10px;
+  height: 33px;
+  width: 200px;
+  display: block;
+}
+
+/* ============ all forms display =========== */
+.logout {
+  width: 100px;
+  height: 25px;
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background-color: rgb(103, 187, 214);
+  color: white;
+  padding: 5px 10px;
+  border: none;
+}
+.form-container {
+  display: none;
+  height: calc(100vh - 30px);
+  justify-content: center;
+  flex-direction: column;
+}
+form {
+  margin: auto;
+  min-width: 200px;
+  max-width: 300px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid rgb(103, 187, 214);
+}
+form h1 {
+  margin: auto;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.input-div {
+  display: grid;
+}
+label {
+  margin-left: 20px;
+}
+input {
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(75, 71, 71);
+  color: white;
+  padding: 5px 10px;
+  height: 25px;
+}
+textarea {
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(75, 71, 71);
+  color: white;
+  padding: 5px 10px;
+}
+.checkbox-div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0 20px;
+}
+.checkbox-div input {
+  margin-bottom: 3;
+  height: 10px;
+}
+.checkbox-div label {
+  margin-left: 0;
+}
+.submit-button {
+  margin-top: 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(103, 187, 214);
+  color: white;
+  padding: 5px 10px;
+  height: 33px;
+}
+.alert {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+  max-width: 200px;
+}
+.goToDashBtn {
+  margin-top: 20px;
+  border: none;
+  background-color: rgb(103, 187, 214);
+  color: white;
+  padding: 5px 10px;
+  height: 33px;
+}
+/* ============ all items and users display =========== */
+.logoutInSection {
+  width: 100px;
+  height: 25px;
+  background-color: rgb(103, 187, 214);
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  margin-left: calc(100vw - 110px);
+  margin-top: 8px;
+}
+.sections {
+  display: none;
+  flex-direction: column;
+}
+.loading {
+  text-align: center;
+  display: none;
+}
+.containers {
+  padding: 0 35px;
+  margin-bottom: 40px;
+}
+.single-item {
+  display: grid;
+  grid-template-columns: 1fr 60px;
+  border: 1px solid black;
+  background-color: rgb(104, 100, 100);
+  padding: 7px 15px;
+  border-radius: 5px;
+  margin-top: 5px;
+  color: black;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.single-item h5 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: lighter;
+  margin-right: 10px;
+}
+.item-links {
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+.single-item button {
+  background-color: inherit;
+  border: 0;
+  margin-right: 10px;
+}
+.controller-div {
+  margin: 20px auto;
+}
+.controller-button {
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(103, 187, 214);
+  color: white;
+  padding: 5px 10px;
+  height: 33px;
+}
+/* =========== footer ==========*/
+footer {
+  text-align: end;
+  background-color: black;
+  color: white;
+  font-size: 12px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 5px 10% 5px 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  height: 17px;
+}
+#copy {
+  text-align: left;
+  padding-left: 20px;
+}
+footer a {
+  color: rgb(222, 126, 126);
+  text-decoration: none;
+}

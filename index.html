@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
+</head>
+
+<body>
+  <div id="server-up">
+    <h1>waiting for server response</h1>
+    <h2>it may take a few minutes</h2>
+  </div>
+  <div id="dashboard">
+    <button onclick="logOut()" class="logout">Log Out</button>
+    <div>welcome <span id="welcome-span"></span></div>
+    <button id="data-button" onclick="showAllItems()">Go to Data</button>
+    <button id="users-button" onclick="showAllUsers()">Go to Users</button>
+  </div>
+
+  <div class="form-container" id="login-container">
+    <form method="post" id="login-form" autocomplete="off" spellcheck="false">
+      <h1>log in</h1>
+      <div class="input-div">
+        <label for="login-username">Username</label>
+        <input type="text" name="username" id="login-username" placeholder="Enter Username">
+        <label for="login-password">Password</label>
+        <input type="password" name="password" id="login-password" placeholder="Enter Password">
+        <button type="submit" class="submit-button">log in</button>
+      </div>
+      <div class="alert" id="login-alert"></div>
+    </form>
+  </div>
+
+  <div class="form-container" id="add-item-container">
+    <button onclick="logOut()" class="logout">Log Out</button>
+    <form method="post" id="add-item-form" autocomplete="off">
+      <h1>Add Item</h1>
+      <div class="input-div">
+        <input type="text" name="name" id="add-item-name" placeholder="Name" maxlength="25" required />
+        <input type="text" name="category" id="add-item-category" placeholder="Category" maxlength="25" required />
+        <input type="text" name="price" id="add-item-price" placeholder="Price" maxlength="15" />
+        <textarea rows="5" name="description" id="add-item-description" placeholder="Description"></textarea>
+        <button type="submit" class="submit-button">submit</button>
+      </div>
+      <div class="alert" id="add-item-alert"></div>
+    </form>
+    <button class="goToDashBtn" onclick="changeDisplay(dashboard)">Return To Dashboard</button>
+  </div>
+
+  <div class="form-container" id="edit-item-container">
+    <button onclick="logOut()" class="logout">Log Out</button>
+    <form id="edit-item-form" autocomplete="off">
+      <h1>Edit Item</h1>
+      <div class="input-div">
+        <input type="text" name="name" id="edit-item-name" placeholder="Name" maxlength="25" required />
+        <input type="text" name="category" id="edit-item-category" placeholder="Category" maxlength="25" required />
+        <input type="text" name="price" id="edit-item-price" placeholder="Price" maxlength="15" />
+        <textarea rows="5" name="description" id="edit-item-description" placeholder="Description"></textarea>
+        <button type="submit" class="submit-button">edit</button>
+      </div>
+      <div class="alert" id="edit-item-alert"></div>
+    </form>
+    <button class="goToDashBtn" onclick="changeDisplay(dashboard)">Return To Dashboard</button>
+  </div>
+
+  <div class="form-container" id="add-user-container">
+    <button onclick="logOut()" class="logout">Log Out</button>
+    <form id="add-user-form" autocomplete="off" spellcheck="false">
+      <h1>Add User</h1>
+      <div class="input-div">
+        <input type="text" name="username" id="add-user-username" placeholder="Username" maxlength="25" minlength="5"
+          required />
+        <input type="password" name="password" id="add-user-password" placeholder="Password" maxlength="25"
+          minlength="5" required />
+        <div class="checkbox-div">
+          <div><input type="checkbox" name="admin" id="add-user-admin-role">
+            <label for="add-user-admin-role">admin</label>
+          </div>
+          <div><input type="checkbox" name="editor" id="add-user-editor-role">
+            <label for="add-user-editor-role">editor</label>
+          </div>
+        </div>
+        <button type="submit" class="submit-button">submit</button>
+      </div>
+      <div class="alert" id="add-user-alert"></div>
+    </form>
+    <button class="goToDashBtn" onclick="changeDisplay(dashboard)">Return To Dashboard</button>
+  </div>
+
+  <div class="form-container" id="edit-user-container">
+    <button onclick="logOut()" class="logout">Log Out</button>
+    <form id="edit-user-form" autocomplete="off" spellcheck="false">
+      <h1>edit User</h1>
+      <div class="input-div">
+        <input type="text" name="username" id="edit-user-username" placeholder="Username" maxlength="25" minlength="5"
+          required />
+        <input type="password" name="password" id="edit-user-password" placeholder="Password" maxlength="25"
+          minlength="5" />
+        <div class="checkbox-div">
+          <div><input type="checkbox" name="admin" id="edit-user-admin-role">
+            <label for="edit-user-admin-role">admin</label>
+          </div>
+          <div><input type="checkbox" name="editor" id="edit-user-editor-role">
+            <label for="edit-user-editor-role">editor</label>
+          </div>
+        </div>
+        <button type="submit" class="submit-button">submit</button>
+      </div>
+      <div class="alert" id="edit-user-alert"></div>
+    </form>
+    <button class="goToDashBtn" onclick="changeDisplay(dashboard)">Return To Dashboard</button>
+  </div>
+
+  <section id="all-items-section" class="sections">
+    <button onclick="logOut()" class="logoutInSection">Log Out</button>
+    <div class="controller-div">
+      <button class="controller-button" onclick="changeDisplay(dashboard)">Go To Dashboard</button>
+      <button class="controller-button" onclick="changeDisplay(addItemContainer)">Add New Item</button>
+    </div>
+    <p id="all-items-loading-text" class="loading"></p>
+    <div id="all-items-container" class="containers"></div>
+  </section>
+
+  <section id="all-users-section" class="sections">
+    <button onclick="logOut()" class="logoutInSection">Log Out</button>
+    <div class="controller-div">
+      <button class="controller-button" onclick="changeDisplay(dashboard)">Go To Dashboard</button>
+      <button class="controller-button" onclick="changeDisplay(addUserContainer)">Add New User</button>
+    </div>
+    <p id="all-users-loading-text" class="loading"></p>
+    <div id="all-users-container" class="containers">
+    </div>
+  </section>
+
+  <footer>
+    <div id="copy"></div>
+    <div id="credit">
+      Developped by
+      <a href="https://www.linkedin.com/in/karam-b-karam" target="_blank">Karam</a>
+    </div>
+  </footer>
+
+  <script src="./index.js"></script>
+</body>
+
+</html>
