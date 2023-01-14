@@ -32,6 +32,7 @@ const editUserPasswordInputDOM = document.getElementById("edit-user-password");
 const editUserAdminInputDOM = document.getElementById("edit-user-admin-role");
 const editUserEditorInputDOM = document.getElementById("edit-user-editor-role");
 const editUserFormAlertDOM = document.getElementById("edit-user-alert");
+const pwdCheck = document.getElementById("password-checkbox");
 
 const addUserContainer = document.getElementById("add-user-container");
 const addUserFormDOM = document.getElementById("add-user-form");
@@ -206,9 +207,14 @@ editUserFormDOM.addEventListener("submit", (e) => {
   e.preventDefault();
   const username = editUserUsernameInputDOM.value;
   const password = editUserPasswordInputDOM.value;
-  const roles = { user: 1984 };
-  editUserAdminInputDOM.checked ? (roles.admin = 5150) : null;
-  editUserEditorInputDOM.checked ? (roles.editor = 2001) : null;
+  const response = {
+    username: username,
+    password: password,
+    roles: { user: 1984 },
+  };
+  password == "" || !password ? delete response.password : null;
+  editUserAdminInputDOM.checked ? (response.roles.admin = 5150) : null;
+  editUserEditorInputDOM.checked ? (response.roles.editor = 2001) : null;
   editUserFormAlertDOM.innerHTML = ``;
   fetch(`https://moonlight-znjk.onrender.com/users/${TARGET_USER_USERNAME}`, {
     method: "PATCH",
@@ -216,11 +222,7 @@ editUserFormDOM.addEventListener("submit", (e) => {
       "Content-Type": "application/json",
       Authorization: "Bearer " + accessToken,
     },
-    body: JSON.stringify({
-      username: username,
-      password: password,
-      roles: roles,
-    }),
+    body: JSON.stringify(response),
     credentials: "include",
   })
     .then((response) => {
@@ -299,6 +301,15 @@ addUserFormDOM.addEventListener("submit", (e) => {
     .catch((error) => {
       console.error(error);
     });
+});
+
+//password event listener for edit user
+pwdCheck.addEventListener("change", () => {
+  if (pwdCheck.checked) {
+    editUserPasswordInputDOM.removeAttribute("disabled", "");
+  } else {
+    editUserPasswordInputDOM.setAttribute("disabled", "");
+  }
 });
 
 // operation functions
@@ -550,13 +561,17 @@ let copy = document.getElementById("copy");
 copy.innerHTML = `&copy; ${date}`;
 
 //wait for server scale up
-fetch(`https://moonlight-znjk.onrender.com/data`, {
-  method: "GET",
-  headers: {
-    Authorization: "Bearer " + accessToken,
-  },
-})
-  .then((response) => response.json())
-  .then(() => {
-    changeDisplay(loginContainer);
-  });
+function ScaleUp() {
+  fetch(`https://moonlight-znjk.onrender.com/data`, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + accessToken,
+    },
+  })
+    .then((response) => response.json())
+    .then(() => {
+      changeDisplay(loginContainer);
+    });
+}
+ScaleUp();
+changeDisplay(editUserContainer);

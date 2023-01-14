@@ -9,6 +9,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  text-align: center;
 }
 /* ============ Dashboard =========== */
 #dashboard {
@@ -210,4 +211,11 @@ footer {
 footer a {
   color: rgb(222, 126, 126);
   text-decoration: none;
+}
+#pwd-check-div {
+  display: flex;
+  align-items: center;
+}
+#password-checkbox {
+  margin: 3px 10px 3px 20px;
 }
