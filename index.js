@@ -574,4 +574,3 @@ function ScaleUp() {
     });
 }
 ScaleUp();
-changeDisplay(editUserContainer);
