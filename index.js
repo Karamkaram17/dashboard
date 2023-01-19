@@ -547,6 +547,15 @@ function logOut() {
       if (response.status === 204) {
         accessToken = "";
         changeDisplay(loginContainer);
+        const inputs = document.querySelectorAll("input");
+        inputs.forEach((input) => {
+          input.value = "";
+          if (input.type == "checkbox") {
+            input.checked = "false";
+          }
+        });
+        allUsersContainer.innerHTML = "";
+        allItemsContainer.innerHTML = "";
         return console.log("logged out successfully");
       } else {
         throw new Error(response.statusText);
