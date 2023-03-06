@@ -50,8 +50,7 @@ const allUsersSection = document.getElementById("all-users-section");
 const allUsersLoading = document.getElementById("all-users-loading-text");
 const allUsersContainer = document.getElementById("all-users-container");
 
-const url = "http://localhost:5000";
-// const url='https://moonlight-znjk.onrender.com'
+const url = "https://moonlight-znjk.onrender.com";
 let accessToken;
 let TARGET_ITEM_ID;
 let TARGET_USER_USERNAME;
