@@ -50,9 +50,11 @@ const allUsersSection = document.getElementById("all-users-section");
 const allUsersLoading = document.getElementById("all-users-loading-text");
 const allUsersContainer = document.getElementById("all-users-container");
 
-var accessToken;
-var TARGET_ITEM_ID;
-var TARGET_USER_USERNAME;
+const url = "http://localhost:5000";
+// const url='https://moonlight-znjk.onrender.com'
+let accessToken;
+let TARGET_ITEM_ID;
+let TARGET_USER_USERNAME;
 ServerResponse.style.display = "flex";
 
 //============= login form =============
@@ -61,7 +63,7 @@ loginFormDOM.addEventListener("submit", (e) => {
   const username = loginUsernameInputDOM.value;
   const password = loginPasswordInputDOM.value;
   loginFormAlertDOM.innerHTML = ``;
-  fetch("https://moonlight-znjk.onrender.com/auth", {
+  fetch(`${url}/auth`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -75,25 +77,12 @@ loginFormDOM.addEventListener("submit", (e) => {
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else if (response.status === 400) {
-        newAlert(loginFormAlertDOM, `Username and password are required`);
-        throw new Error(response.statusText);
-      } else if (response.status === 401) {
-        newAlert(loginFormAlertDOM, `Invalid username or password`);
-        throw new Error(response.statusText);
       } else {
-        newAlert(loginFormAlertDOM, `An unexpected error occurred`);
-        throw new Error(response.statusText);
+        errorResponse(response, loginFormAlertDOM);
       }
     })
     .then((data) => {
       accessToken = data.accessToken;
-      // Store the refresh token in a cookie
-      const refreshToken = data.refreshToken;
-      document.cookie =
-        "jwt=" +
-        refreshToken +
-        "; httpOnly=true; sameSite=none; secure=true; maxAge=86400000";
     })
     .then(() => {
       dashboardSpan.innerHTML = `${loginUsernameInputDOM.value}`;
@@ -112,7 +101,7 @@ editItemFormDOM.addEventListener("submit", (e) => {
   const price = editItemPriceInputDOM.value;
   const description = editItemDescInputDOM.value;
   editItemFormAlertDOM.innerHTML = ``;
-  fetch(`https://moonlight-znjk.onrender.com/data/${TARGET_ITEM_ID}`, {
+  fetch(`${url}/data/${TARGET_ITEM_ID}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -129,15 +118,8 @@ editItemFormDOM.addEventListener("submit", (e) => {
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else if (response.status === 401) {
-        newAlert(editItemFormAlertDOM, "Unauthorized");
-        throw new Error(response.statusText);
-      } else if (response.status === 403) {
-        newAlert(editItemFormAlertDOM, "Forbidden");
-        throw new Error(response.statusText);
       } else {
-        newAlert(editItemFormAlertDOM, `An unexpected error occurred`);
-        throw new Error(response.statusText);
+        errorResponse(response, editItemFormAlertDOM);
       }
     })
     .then(() => {
@@ -161,7 +143,7 @@ addItemFormDOM.addEventListener("submit", (e) => {
   const price = addItemPriceInputDOM.value;
   const description = addItemDescInputDOM.value;
   addItemFormAlertDOM.innerHTML = ``;
-  fetch("https://moonlight-znjk.onrender.com/data", {
+  fetch(`${url}/data`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -178,15 +160,8 @@ addItemFormDOM.addEventListener("submit", (e) => {
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else if (response.status === 401) {
-        newAlert(addItemFormAlertDOM, "Unauthorized");
-        throw new Error(response.statusText);
-      } else if (response.status === 403) {
-        newAlert(addItemFormAlertDOM, "Forbidden");
-        throw new Error(response.statusText);
       } else {
-        newAlert(addItemFormAlertDOM, `An unexpected error occurred`);
-        throw new Error(response.statusText);
+        errorResponse(response, addItemFormAlertDOM);
       }
     })
     .then(() => {
@@ -216,7 +191,7 @@ editUserFormDOM.addEventListener("submit", (e) => {
   editUserAdminInputDOM.checked ? (response.roles.admin = 5150) : null;
   editUserEditorInputDOM.checked ? (response.roles.editor = 2001) : null;
   editUserFormAlertDOM.innerHTML = ``;
-  fetch(`https://moonlight-znjk.onrender.com/users/${TARGET_USER_USERNAME}`, {
+  fetch(`${url}/users/${TARGET_USER_USERNAME}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -228,18 +203,8 @@ editUserFormDOM.addEventListener("submit", (e) => {
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else if (response.status === 401) {
-        newAlert(editUserFormAlertDOM, "Unauthorized");
-        throw new Error(response.statusText);
-      } else if (response.status === 403) {
-        newAlert(editUserFormAlertDOM, "Forbidden");
-        throw new Error(response.statusText);
-      } else if (response.status === 409) {
-        newAlert(editUserFormAlertDOM, "username already exists");
-        throw new Error(response.statusText);
       } else {
-        newAlert(editUserFormAlertDOM, `An unexpected error occurred`);
-        throw new Error(response.statusText);
+        errorResponse(response, editUserFormAlertDOM);
       }
     })
     .then(() => {
@@ -264,7 +229,7 @@ addUserFormDOM.addEventListener("submit", (e) => {
   addUserAdminInputDOM.checked ? (roles.admin = 5150) : null;
   addUserEditorInputDOM.checked ? (roles.editor = 2001) : null;
   addUserFormAlertDOM.innerHTML = ``;
-  fetch("https://moonlight-znjk.onrender.com/users", {
+  fetch(`${url}/users`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -276,18 +241,8 @@ addUserFormDOM.addEventListener("submit", (e) => {
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else if (response.status === 401) {
-        newAlert(addUserFormAlertDOM, "Unauthorized");
-        throw new Error(response.statusText);
-      } else if (response.status === 403) {
-        newAlert(addUserFormAlertDOM, "Forbidden");
-        throw new Error(response.statusText);
-      } else if (response.status === 409) {
-        newAlert(addUserFormAlertDOM, "username already exists");
-        throw new Error(response.statusText);
       } else {
-        newAlert(addUserFormAlertDOM, `An unexpected error occurred`);
-        throw new Error(response.statusText);
+        errorResponse(response, addUserFormAlertDOM);
       }
     })
     .then(() => {
@@ -314,7 +269,7 @@ pwdCheck.addEventListener("change", () => {
 
 // operation functions
 function deleteItem() {
-  fetch(`https://moonlight-znjk.onrender.com/data/${TARGET_ITEM_ID}`, {
+  fetch(`${url}/data/${TARGET_ITEM_ID}`, {
     method: "DELETE",
     headers: {
       Authorization: "Bearer " + accessToken,
@@ -333,7 +288,7 @@ function deleteItem() {
     .catch((error) => console.error(error));
 }
 function deleteUser() {
-  fetch(`https://moonlight-znjk.onrender.com/users/${TARGET_USER_USERNAME}`, {
+  fetch(`${url}/users/${TARGET_USER_USERNAME}`, {
     method: "DELETE",
     headers: {
       Authorization: "Bearer " + accessToken,
@@ -353,7 +308,7 @@ function deleteUser() {
 }
 function showItem() {
   changeDisplay(editItemContainer);
-  fetch(`https://moonlight-znjk.onrender.com/data/${TARGET_ITEM_ID}`, {
+  fetch(`${url}/data/${TARGET_ITEM_ID}`, {
     method: "GET",
     headers: {
       Authorization: "Bearer " + accessToken,
@@ -362,15 +317,8 @@ function showItem() {
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else if (response.status === 401) {
-        newAlert(editItemFormAlertDOM, "Unauthorized");
-        throw new Error(response.statusText);
-      } else if (response.status === 403) {
-        newAlert(editItemFormAlertDOM, "Forbidden");
-        throw new Error(response.statusText);
       } else {
-        newAlert(editItemFormAlertDOM, `An unexpected error occurred`);
-        throw new Error(response.statusText);
+        errorResponse(response, editItemFormAlertDOM);
       }
     })
     .then((data) => {
@@ -383,7 +331,7 @@ function showItem() {
 }
 function showUser() {
   changeDisplay(editUserContainer);
-  fetch(`https://moonlight-znjk.onrender.com/users/${TARGET_USER_USERNAME}`, {
+  fetch(`${url}/users/${TARGET_USER_USERNAME}`, {
     method: "GET",
     headers: {
       Authorization: "Bearer " + accessToken,
@@ -392,15 +340,8 @@ function showUser() {
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else if (response.status === 401) {
-        newAlert(editUserFormAlertDOM, "Unauthorized");
-        throw new Error(response.statusText);
-      } else if (response.status === 403) {
-        newAlert(editUserFormAlertDOM, "Forbidden");
-        throw new Error(response.statusText);
       } else {
-        newAlert(editUserFormAlertDOM, `An unexpected error occurred`);
-        throw new Error(response.statusText);
+        errorResponse(response, editUserFormAlertDOM);
       }
     })
     .then((data) => {
@@ -414,7 +355,7 @@ function showAllItems() {
   changeDisplay(allItemsSection);
   allItemsLoading.innerHTML = `Loading...`;
   allItemsLoading.style.display = "block";
-  fetch(`https://moonlight-znjk.onrender.com/data`, {
+  fetch(`${url}/data`, {
     method: "GET",
     headers: {
       Authorization: "Bearer " + accessToken,
@@ -423,22 +364,15 @@ function showAllItems() {
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else if (response.status === 401) {
-        newAlert(allItemsLoading, "Unauthorized");
-        throw new Error(response.statusText);
-      } else if (response.status === 403) {
-        newAlert(allItemsLoading, "Forbidden");
-        throw new Error(response.statusText);
       } else {
-        newAlert(allItemsLoading, `An unexpected error occurred`);
-        throw new Error(response.statusText);
+        errorResponse(response, allItemsLoading);
       }
     })
     .then((data) => {
       allItemsLoading.innerHTML = "";
       allItemsLoading.style.display = "none";
       const items = data.items;
-      const allitems = items
+      const allItems = items
         .map((item) => {
           return `<div class="single-item">
                   <h5>${item.name}</h5>
@@ -453,7 +387,7 @@ function showAllItems() {
                 </div>`;
         })
         .join("");
-      allItemsContainer.innerHTML = allitems;
+      allItemsContainer.innerHTML = allItems;
     })
     .catch((error) => {
       console.error(error);
@@ -463,7 +397,7 @@ function showAllUsers() {
   changeDisplay(allUsersSection);
   allUsersLoading.innerHTML = `Loading...`;
   allUsersLoading.style.display = "block";
-  fetch(`https://moonlight-znjk.onrender.com/users`, {
+  fetch(`${url}/users`, {
     method: "GET",
     headers: {
       Authorization: "Bearer " + accessToken,
@@ -472,15 +406,8 @@ function showAllUsers() {
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else if (response.status === 401) {
-        newAlert(allUsersLoading, "Unauthorized");
-        throw new Error(response.statusText);
-      } else if (response.status === 403) {
-        newAlert(allUsersLoading, "Forbidden");
-        throw new Error(response.statusText);
       } else {
-        newAlert(allUsersLoading, `An unexpected error occurred`);
-        throw new Error(response.statusText);
+        errorResponse(response, allUsersLoading);
       }
     })
     .then((data) => {
@@ -536,7 +463,7 @@ function changeDisplay(target) {
   target.style.display = "flex";
 }
 function logOut() {
-  fetch("https://moonlight-znjk.onrender.com/logout", {
+  fetch(`${url}/logout`, {
     method: "GET",
     headers: {
       Authorization: "Bearer " + accessToken,
@@ -556,7 +483,7 @@ function logOut() {
         });
         allUsersContainer.innerHTML = "";
         allItemsContainer.innerHTML = "";
-        return console.log("logged out successfully");
+        return;
       } else {
         throw new Error(response.statusText);
       }
@@ -571,7 +498,7 @@ copy.innerHTML = `&copy; ${date}`;
 
 //wait for server scale up
 function ScaleUp() {
-  fetch(`https://moonlight-znjk.onrender.com/data`, {
+  fetch(`${url}/data`, {
     method: "GET",
     headers: {
       Authorization: "Bearer " + accessToken,
@@ -587,3 +514,22 @@ function ScaleUp() {
     });
 }
 ScaleUp();
+
+function errorResponse(response, target) {
+  if (response.status === 400) {
+    newAlert(target, `Username and password are required`);
+    throw new Error(response.statusText);
+  } else if (response.status === 401) {
+    newAlert(target, "Unauthorized");
+    throw new Error(response.statusText);
+  } else if (response.status === 403) {
+    newAlert(target, "Forbidden");
+    throw new Error(response.statusText);
+  } else if (response.status === 409) {
+    newAlert(target, "username already exists");
+    throw new Error(response.statusText);
+  } else {
+    newAlert(target, `An unexpected error occurred`);
+    throw new Error(response.statusText);
+  }
+}
